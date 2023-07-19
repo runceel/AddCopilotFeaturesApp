@@ -1,6 +1,11 @@
 ﻿namespace BlazorApp12.AIPlugins;
 
-public class PageInfoProvider
+public interface IPageInfoProvider
+{
+    IEnumerable<PageInfo> GetPages();
+}
+
+public class PageInfoProvider : IPageInfoProvider
 {
     private readonly List<PageInfo> _pages = new();
 

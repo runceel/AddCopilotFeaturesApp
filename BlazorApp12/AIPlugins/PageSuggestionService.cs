@@ -9,7 +9,7 @@ public class PageSuggestionService
 {
     private IKernel _kernel;
 
-    public PageSuggestionService(IKernel kernel, PageInfoProvider pageInfoProvider)
+    public PageSuggestionService(IKernel kernel, IPageInfoProvider pageInfoProvider)
     {
         ImportPagePlugin(kernel, pageInfoProvider.GetPages());
         _kernel = kernel;

@@ -29,13 +29,13 @@ builder.Services.AddTransient(sp =>
         .Build();
 });
 
-builder.Services.AddSingleton(sp =>
+builder.Services.AddSingleton<IPageInfoProvider>(sp =>
 {
-    var pageNavigationPlugins = new PageInfoProvider();
-    pageNavigationPlugins.AddPage("WeatherForecast", "showdata", "気温の予報の一覧を表示するページです。");
-    pageNavigationPlugins.AddPage("StockForecast", "showdata2", "株価の予測の一覧を表示するページです。");
-    pageNavigationPlugins.AddPage("Counter", "counter", "ボタンを押した回数をカウントするページ");
-    return pageNavigationPlugins;
+    var pageInfoProvider = new PageInfoProvider();
+    pageInfoProvider.AddPage("WeatherForecast", "showdata", "気温の予報の一覧を表示するページです。");
+    pageInfoProvider.AddPage("StockForecast", "showstockdata", "株価の予測の一覧を表示するページです。");
+    pageInfoProvider.AddPage("Counter", "counter", "ボタンを押した回数をカウントするページ");
+    return pageInfoProvider;
 });
 
 builder.Services.AddScoped<PageSuggestionService>();

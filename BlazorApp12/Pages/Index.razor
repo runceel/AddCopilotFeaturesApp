@@ -1,28 +1,41 @@
 ﻿@page "/"
 @using BlazorApp12.AIPlugins;
 @inject PageSuggestionService PageSuggestionService
+@inject IPageInfoProvider PageInfoProvider
 @attribute [RenderModeServer]
 
 <PageTitle>Index</PageTitle>
 
 <h1>やりたいことが出来るページを探す Copilot サンプル</h1>
 
-<p>やりたいことを入力して探すボタンを押してください。</p>
 
-<input type="text" @bind-value="_goal" />
+<h3>候補のページ一覧</h3>
+
+<ul>
+    @foreach (var pageInfo in PageInfoProvider.GetPages())
+    {
+        <li>@pageInfo.Name: @pageInfo.Description</li>
+    }
+</ul>
+
+<h3>検索</h3>
+
+<p>やりたいことを入力して探すボタンを押してください。</p>
+<input type="text" @bind-value="_goal" style="width: 50em;" />
+<br/>
 <button @onclick="SearchAsync">探す</button>
 
 <hr />
 
 @if (_loading)
 {
-    <div>探しています...</div>
+    <div>検索中…。</div>
 }
 else
 {
     @if (_suggestedPageInfo is null)
     {
-        <div>やりたいことに対するページはまだ見つかりませんでした。</div>
+        <div>やりたいことに対するページは見つかりませんでした。</div>
     }
     else
     {
