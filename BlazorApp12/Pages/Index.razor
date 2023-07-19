@@ -1,0 +1,56 @@
+﻿@page "/"
+@using BlazorApp12.AIPlugins;
+@inject PageSuggestionService PageSuggestionService
+@attribute [RenderModeServer]
+
+<PageTitle>Index</PageTitle>
+
+<h1>やりたいことが出来るページを探す Copilot サンプル</h1>
+
+<p>やりたいことを入力して探すボタンを押してください。</p>
+
+<input type="text" @bind-value="_goal" />
+<button @onclick="SearchAsync">探す</button>
+
+<hr />
+
+@if (_loading)
+{
+    <div>探しています...</div>
+}
+else
+{
+    @if (_suggestedPageInfo is null)
+    {
+        <div>やりたいことに対するページはまだ見つかりませんでした。</div>
+    }
+    else
+    {
+        <div>
+            <h3>見つかったページ</h3>
+            <dl>
+                <dt>@_suggestedPageInfo.Name</dt>
+                <dd>@_suggestedPageInfo.Description</dd>
+            </dl>
+            <a href="@_suggestedPageInfo.Path">ページに移動する</a>
+        </div>
+    }
+}
+
+@code {
+    private bool _loading = false;
+    private string _goal = "";
+    private PageInfo? _suggestedPageInfo;
+    private async Task SearchAsync()
+    {
+        _loading = true;
+        try
+        {
+            _suggestedPageInfo = await PageSuggestionService.SuggestPageAsync(_goal);
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
+}

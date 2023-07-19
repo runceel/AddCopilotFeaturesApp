@@ -1,0 +1,11 @@
+﻿@page "/counter"
+@attribute [RenderModeServer]
+
+<h3>Counter</h3>
+
+<p>Current count: @_value</p>
+<button @onclick="() => _value++">Click me</button>
+
+@code {
+    private int _value;
+}
